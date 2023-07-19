@@ -127,6 +127,8 @@ namespace Runner {
 			ini.SetUnicode();
 			ini.SetMultiKey();
 
+			TRACE("Processing file: {}", filePath);
+
 			auto rc = ini.LoadFile(filePath.c_str());
 			if (rc < 0) {
 				ERROR("Error loading file: {}", filePath);
@@ -202,9 +204,9 @@ namespace Runner {
 				} else if (ruleType.value() == LIEM::RuleType::WEAPON) {
 					MapModifier<LIEM::RuleType::WEAPON>(matches, appliersHash, result);
 				}
-				// TODO: add more form types here
+				// TODO add more rules here
 				else {
-					WARN("Unknown form type: {}", key.pItem);
+					WARN("Unimplemented key: {}", key.pItem);
 					continue;
 				}
 			}
