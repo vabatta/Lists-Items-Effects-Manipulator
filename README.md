@@ -10,8 +10,8 @@ The configuration files are written in ini format and are loaded from the root `
 ## General syntax
 
 ```ini
-#On what-   -What to do|-----------Where to do it-----------|-----When to do it-----|
-<KeyType> = <Modifiers>|<StringFilters>|<FilterIDs>|<Traits>|<Chance>|<LoadCondition>
+#On what-   -What to do|------------Where to do it------------|-----When to do it-----|
+<KeyType> = <Modifiers>|<StringFilters>|<FormFilters>|<Traits>|<Chance>|<LoadCondition>
 ```
 
 In general the syntax is the one described above, similar to the one used in SPID or KID, and specialised on the key type (see below).

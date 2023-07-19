@@ -9,7 +9,7 @@ namespace LIEM {
 		WEAPON
 	};
 
-	enum class SectionType : std::uint32_t { MODIFIERS, STRING_FILTERS, FILTER_IDS, TRAITS, CHANCE, LOAD_CONDITIONS };
+	enum class SectionType : std::uint32_t { MODIFIERS, STRING_FILTERS, FORM_FILTERS, TRAITS, CHANCE, LOAD_CONDITIONS };
 
 	const inline std::unordered_map<std::string_view, RuleType> StringToRuleType = {{"Alias"sv, RuleType::ALIAS},
 																																									{"Armor"sv, RuleType::ARMOR},
