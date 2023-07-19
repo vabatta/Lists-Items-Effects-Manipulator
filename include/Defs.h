@@ -15,7 +15,7 @@ namespace LIEM {
 																																									{"Armor"sv, RuleType::ARMOR},
 																																									{"Ammo"sv, RuleType::AMMO},
 																																									{"Weapon"sv, RuleType::WEAPON}};
-	
+
 	// po3 tweaks
 	inline HMODULE tweaks;
 	using _GetFormEditorID = const char* (*)(std::uint32_t);
