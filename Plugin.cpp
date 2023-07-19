@@ -22,22 +22,25 @@ namespace LIEM {
 					auto& armors = handler->GetFormArray<RE::TESObjectARMO>();
 					for (auto const& armor : armors) {
 						std::vector<std::size_t> appliedMods;
+						TRACE("Processing armor: {:X} {} ({})", armor->GetFormID(), GetEditorID(armor), armor->GetName());
 
 						for (auto& [hash, rule] : map.armors) {
 							auto& mod = rule.first;
 							auto& applier = rule.second.get();
-							// DEBUG("Applying mod: {}", hash);
 
-							if (applier.Passes(armor)) {
+							auto applierPass = applier.Passes(armor);
+							TRACE("Processed applier: {} = {}", hash, applierPass);
+							if (applierPass) {
 								mod.Apply(armor);
 								appliedMods.emplace_back(hash);
 							}
 						}
 
 						if (!appliedMods.empty()) {
-							INFO("Armor: {:X} {}  {}", armor->GetFormID(), GetEditorID(armor), armor->GetName());
+							DEBUG("Processed armor mods [{}]: {:X} {} ({})", appliedMods.size(), armor->GetFormID(), GetEditorID(armor),
+										armor->GetName());
 							for (auto& hash : appliedMods) {
-								INFO("Applied mod: {}", hash);
+								TRACE("Applied mod: {}", hash);
 							}
 						}
 					}
@@ -47,21 +50,25 @@ namespace LIEM {
 					auto& ammos = handler->GetFormArray<RE::TESAmmo>();
 					for (auto const& ammo : ammos) {
 						std::vector<std::size_t> appliedMods;
+						TRACE("Processing ammo: {:X} {} ({})", ammo->GetFormID(), GetEditorID(ammo), ammo->GetName());
 
 						for (auto& [hash, rule] : map.ammos) {
 							auto& mod = rule.first;
 							auto& applier = rule.second.get();
 
-							if (applier.Passes(ammo)) {
+							auto applierPass = applier.Passes(ammo);
+							TRACE("Processed applier: {} = {}", hash, applierPass);
+							if (applierPass) {
 								mod.Apply(ammo);
 								appliedMods.emplace_back(hash);
 							}
 						}
 
 						if (!appliedMods.empty()) {
-							INFO("Ammo: {:X} {}  {}", ammo->GetFormID(), GetEditorID(ammo), ammo->GetName());
+							DEBUG("Processed ammo mods [{}]: {:X} {} ({})", appliedMods.size(), ammo->GetFormID(), GetEditorID(ammo),
+										ammo->GetName());
 							for (auto& hash : appliedMods) {
-								INFO("Applied mod: {}", hash);
+								TRACE("Applied mod: {}", hash);
 							}
 						}
 					}
@@ -71,21 +78,25 @@ namespace LIEM {
 					auto& weapons = handler->GetFormArray<RE::TESObjectWEAP>();
 					for (auto const& weapon : weapons) {
 						std::vector<std::size_t> appliedMods;
+						TRACE("Processing weapon: {:X} {} ({})", weapon->GetFormID(), GetEditorID(weapon), weapon->GetName());
 
 						for (auto& [hash, rule] : map.weapons) {
 							auto& mod = rule.first;
 							auto& applier = rule.second.get();
 
-							if (applier.Passes(weapon)) {
+							auto applierPass = applier.Passes(weapon);
+							TRACE("Processed applier: {} = {}", hash, applierPass);
+							if (applierPass) {
 								mod.Apply(weapon);
 								appliedMods.emplace_back(hash);
 							}
 						}
 
 						if (!appliedMods.empty()) {
-							INFO("Weapon: {:X} {}  {}", weapon->GetFormID(), GetEditorID(weapon), weapon->GetName());
+							DEBUG("Processed weapon mods [{}]: {:X} {} ({})", appliedMods.size(), weapon->GetFormID(), GetEditorID(weapon),
+										weapon->GetName());
 							for (auto& hash : appliedMods) {
-								INFO("Applied mod: {}", hash);
+								TRACE("Applied mod: {}", hash);
 							}
 						}
 					}

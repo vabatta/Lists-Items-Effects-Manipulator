@@ -59,13 +59,13 @@ namespace StringFilters {
 		if (!requirements.empty()) {
 			requirementsMet = std::all_of(requirements.begin(), requirements.end(), [&](const auto& requirement) {
 				bool result = false;
-				//DEBUG("requirement: {}", requirement);
+				TRACE("SF requirement: {}", requirement);
 
 				if constexpr (std::derived_from<T, RE::BGSKeywordForm>) {
 					// check keywords
 					auto keywordForm = static_cast<const RE::BGSKeywordForm*>(form);
 					result |= keywordForm->HasKeywordString(requirement);
-					//DEBUG("hasKeyword = {}", result);
+					TRACE("SF hasKeyword = {}", result);
 				}
 
 				if constexpr (std::derived_from<T, RE::TESForm>) {
@@ -73,11 +73,11 @@ namespace StringFilters {
 					// check editorID
 					std::string editorID(LIEM::GetEditorID(tesForm)); //(tesForm->GetFormEditorID());
 					result |= std::ranges::equal(editorID | to_lower, requirement | to_lower);
-					//DEBUG("isFormEditorID = {}", result);
+					TRACE("SF isFormEditorID = {}", result);
 					// check name
 					std::string name(tesForm->GetName());
 					result |= std::ranges::equal(name | to_lower, requirement | to_lower);
-					//DEBUG("isName = {}", result);
+					TRACE("SF isName = {}", result);
 				}
 
 				return result;
@@ -87,12 +87,13 @@ namespace StringFilters {
 		if (!exclusions.empty()) {
 			exclusionsMet = std::none_of(exclusions.begin(), exclusions.end(), [&](const auto& exclusion) {
 				bool result = false;
-				//DEBUG("exclusion: {}", exclusion);
+				TRACE("SF exclusion: {}", exclusion);
 
 				if constexpr (std::derived_from<T, RE::BGSKeywordForm>) {
 					// check keywords
 					auto keywordForm = static_cast<const RE::BGSKeywordForm*>(form);
 					result |= keywordForm->HasKeywordString(exclusion);
+					TRACE("SF hasKeyword = {}", result);
 				}
 
 				if constexpr (std::derived_from<T, RE::TESForm>) {
@@ -100,9 +101,11 @@ namespace StringFilters {
 					// check editorID
 					std::string editorID(LIEM::GetEditorID(tesForm)); //(tesForm->GetFormEditorID());
 					result |= std::ranges::equal(editorID | to_lower, exclusion | to_lower);
+					TRACE("SF isFormEditorID = {}", result);
 					// check name
 					std::string name(tesForm->GetName());
 					result |= std::ranges::equal(name | to_lower, exclusion | to_lower);
+					TRACE("SF isName = {}", result);
 				}
 
 				return result;
@@ -112,12 +115,13 @@ namespace StringFilters {
 		if (!matches.empty()) {
 			matchesMet = std::any_of(matches.begin(), matches.end(), [&](const auto& match) {
 				bool result = false;
-				//DEBUG("match: {}", match);
+				TRACE("SF match: {}", match);
 
 				if constexpr (std::derived_from<T, RE::BGSKeywordForm>) {
 					// check keywords
 					auto keywordForm = static_cast<const RE::BGSKeywordForm*>(form);
 					result |= keywordForm->HasKeywordString(match);
+					TRACE("SF hasKeyword = {}", result);
 				}
 
 				if constexpr (std::derived_from<T, RE::TESForm>) {
@@ -125,9 +129,11 @@ namespace StringFilters {
 					// check editorID
 					std::string editorID(LIEM::GetEditorID(tesForm)); //(tesForm->GetFormEditorID());
 					result |= std::ranges::equal(editorID | to_lower, match | to_lower);
+					TRACE("SF isFormEditorID = {}", result);
 					// check name
 					std::string name(tesForm->GetName());
 					result |= std::ranges::equal(name | to_lower, match | to_lower);
+					TRACE("SF isName = {}", result);
 				}
 
 				return result;
@@ -137,12 +143,13 @@ namespace StringFilters {
 		if (!wildcards.empty()) {
 			wildcardsMet = std::any_of(wildcards.begin(), wildcards.end(), [&](const auto& wildcard) {
 				bool result = false;
-				//DEBUG("wildcard: {}", wildcard);
+				TRACE("SF wildcard: {}", wildcard);
 
 				if constexpr (std::derived_from<T, RE::BGSKeywordForm>) {
 					// check keywords
 					auto keywordForm = static_cast<const RE::BGSKeywordForm*>(form);
 					result |= keywordForm->ContainsKeywordString(wildcard);
+					TRACE("SF containsKeyword = {}", result);
 				}
 
 				if constexpr (std::derived_from<T, RE::TESForm>) {
@@ -151,10 +158,12 @@ namespace StringFilters {
 					std::string editorID(LIEM::GetEditorID(tesForm)); //(tesForm->GetFormEditorID());
 					result |= std::search(editorID.begin(), editorID.end(), wildcard.begin(), wildcard.end(),
 													[](char c1, char c2) { return std::tolower(c1) == std::tolower(c2); }) != editorID.end();
+					TRACE("SF containsFormEditorID = {}", result);
 					// check name
 					std::string name(tesForm->GetName());
 					result |= std::search(name.begin(), name.end(), wildcard.begin(), wildcard.end(),
 																[](char c1, char c2) { return std::tolower(c1) == std::tolower(c2); }) != name.end();
+					TRACE("SF containsName = {}", result);
 				}
 
 				return result;

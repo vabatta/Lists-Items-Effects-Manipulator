@@ -63,7 +63,7 @@ namespace Runner {
 		std::size_t appliersHash = Hashify(raw);
 
 		if (result.appliers.contains(appliersHash)) {
-			INFO("Reusing existing appliers: {}", appliersHash);
+			DEBUG("Reusing existing appliers: {}", appliersHash);
 		} else {
 			Appliers appliers;
 			std::unordered_set<std::string> aliases;
@@ -72,12 +72,12 @@ namespace Runner {
 				auto pair = StringFilters::Factory::ParseStringFilters(matches[1].str());
 				appliers.stringFilters = pair.first;
 				aliases = pair.second;
-				DEBUG("Created SF for: {}", matches[1].str());
+				TRACE("Created SF for: {}", matches[1].str());
 			}
 			// TODO other appliers here
 
 			result.appliers.emplace(appliersHash, appliers);
-			INFO("Created appliers: {} -> {}", appliersHash, raw);
+			DEBUG("Created appliers: {} -> {}", appliersHash, raw);
 
 			for (auto& alias : aliases) {
 				std::size_t mergeAppliersHash = Hashify(alias);
@@ -111,7 +111,7 @@ namespace Runner {
 		if (!result.GetRules<R>().contains(modifiersHash)) {
 			auto pair = std::make_pair(modifier.value(), std::ref(result.appliers[appliersHash]));
 			result.GetRules<R>().emplace(modifiersHash, pair);
-			INFO("Created modifier: {} -> {}", modifiersHash, matches[0].str());
+			DEBUG("Created modifier: {} -> {}", modifiersHash, matches[0].str());
 		} else {
 			WARN("Modifier duplicate discarded: {}", matches[0].str());
 		}
@@ -145,7 +145,7 @@ namespace Runner {
 					oldFormatMap;
 
 			for (const auto& [key, entry] : *values) {
-				INFO("Processing entry: {} = {}", key.pItem, entry);
+				DEBUG("Processing entry: {} = {}", key.pItem, entry);
 
 				auto sanitized = Sanitize(entry);
 
@@ -188,11 +188,12 @@ namespace Runner {
 
 					if (!result.appliers.contains(aliasNameHash)) {
 						result.appliers.emplace(aliasNameHash, result.appliers[appliersHash]);
-						INFO("Created alias: {} -> {}", aliasNameHash, appliersHash);
+						DEBUG("Created alias: {} -> {}", aliasNameHash, appliersHash);
 					}
 					// if alias already exists, check if points to the same appliers
 					else {
 						WARN("Alias duplicate discarded: {}", matches[0].str());
+						continue;
 					}
 				} else if (ruleType.value() == LIEM::RuleType::ARMOR) {
 					MapModifier<LIEM::RuleType::ARMOR>(matches, appliersHash, result);
@@ -210,7 +211,7 @@ namespace Runner {
 
 			// resave cleaned up entries
 			if (!oldFormatMap.empty()) {
-				INFO("sanitizing {} entries", oldFormatMap.size());
+				INFO("Sanitizing {} entries", oldFormatMap.size());
 
 				for (const auto& [key, entry] : oldFormatMap) {
 					auto& [original, sanitized] = entry;

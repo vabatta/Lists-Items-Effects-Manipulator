@@ -1,8 +1,8 @@
 #include "Modifier.h"
 
 namespace Modifier {
-	template <typename M, typename T>
-	static inline void ApplyModifier(const M& modifier, T& value) {
+	template <typename M, typename V>
+	static inline void ApplyModifier(const M& modifier, V& value) {
 		if (modifier.has_value()) {
 			switch (modifier.value().first) {
 				case Type::ABS:
