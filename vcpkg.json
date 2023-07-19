@@ -1,0 +1,16 @@
+{
+	"$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+	"name": "lists-items-effects-manipulator",
+	"version-string": "1.0.0",
+	"dependencies": [
+		"commonlibsse-ng-flatrim",
+		"srell",
+		"spdlog",
+		"fmt",
+		"rapidcsv",
+		"nlohmann-json",
+		"simpleini",
+		"tomlplusplus",
+		"xbyak"
+	]
+}
