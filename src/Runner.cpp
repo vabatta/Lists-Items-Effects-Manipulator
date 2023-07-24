@@ -66,7 +66,7 @@ namespace Runner {
 			DEBUG("Reusing existing appliers: {}", appliersHash);
 		} else {
 			Appliers appliers;
-			std::unordered_set<std::string> aliases;
+			StringFilters::Aliases aliases;
 
 			if (static_cast<uint32_t>(LIEM::SectionType::STRING_FILTERS) < matches.size()) {
 				auto pair = StringFilters::Factory::ParseStringFilters(matches[1].str());

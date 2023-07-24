@@ -31,8 +31,9 @@ namespace StringFilters {
 		}
 	};
 
+	using Aliases = std::unordered_set<std::string>;
+
 	namespace Factory {
-		// [data, aliases]
-		std::pair<Data, std::unordered_set<std::string>> ParseStringFilters(const std::string& raw);
+		std::pair<Data, Aliases> ParseStringFilters(const std::string& raw);
 	}
 }

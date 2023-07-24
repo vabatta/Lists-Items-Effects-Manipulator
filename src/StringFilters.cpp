@@ -1,9 +1,9 @@
 #include "StringFilters.h"
 
 namespace StringFilters {
-	std::pair<Data, std::unordered_set<std::string>> Factory::ParseStringFilters(const std::string& raw) {
+	std::pair<Data, Aliases> Factory::ParseStringFilters(const std::string& raw) {
 		Data result = {};
-		std::unordered_set<std::string> aliases = {};
+		Aliases aliases = {};
 
 		if (raw == rulesSkipToken || raw.empty()) {
 			return std::make_pair(result, aliases);
