@@ -1,5 +1,7 @@
 #include "Modifier.h"
 
+#include <type_traits>
+
 namespace Modifier {
 	template <typename M, typename V>
 	static inline void ApplyModifier(const M& modifier, V& value) {
@@ -45,8 +47,13 @@ namespace Modifier {
 			try {
 				if constexpr (std::is_floating_point_v<T>) {
 					return std::make_pair(signType, static_cast<T>(std::stof(value)));
-				} else if constexpr (std::is_integral_v<T>) {
+				} else if constexpr (std::is_signed_v<T>) {
 					return std::make_pair(signType, static_cast<T>(std::stoi(value)));
+				} else if constexpr (std::is_unsigned_v<T>) {
+					return std::make_pair(signType, static_cast<T>(std::stoul(value)));
+				} else {
+					static_assert(!std::is_floating_point_v<T> || !std::is_signed_v<T> || !std::is_unsigned_v<T>,
+												"Unsupported type");
 				}
 			} catch (const std::exception&) {
 				ERROR("Failed to parse modifier number: {}", raw);
