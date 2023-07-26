@@ -57,9 +57,10 @@ namespace Runner {
 	}
 
 	std::size_t MapAppliers(const std::vector<srell::ssub_match>& matches, Data& result) {
-		std::string raw =
-				std::accumulate(matches.begin() + 1, matches.end(), std::string(),
-												[](const std::string& acc, const srell::ssub_match& match) { return acc + match.str(); });
+		std::string raw = std::accumulate(matches.begin() + 1, matches.end(), std::string(),
+																			[](const std::string& acc, const srell::ssub_match& match) {
+																				return acc.empty() ? match.str() : acc + "|" + match.str();
+																			});
 		std::size_t appliersHash = Hashify(raw);
 
 		if (result.appliers.contains(appliersHash)) {
@@ -73,6 +74,10 @@ namespace Runner {
 				appliers.stringFilters = pair.first;
 				aliases = pair.second;
 				TRACE("Created SF for: {}", matches[1].str());
+			}
+			if (static_cast<uint32_t>(LIEM::SectionType::FORM_FILTERS) < matches.size()) {
+				appliers.formFilters = FormFilters::Factory::ParseFormFilters(matches[2].str());
+				TRACE("Created FF for: {}", matches[2].str());
 			}
 			// TODO other appliers here
 
@@ -88,6 +93,7 @@ namespace Runner {
 				}
 
 				result.appliers[appliersHash].stringFilters += result.appliers[mergeAppliersHash].stringFilters;
+				result.appliers[appliersHash].formFilters += result.appliers[mergeAppliersHash].formFilters;
 				// TODO other appliers here
 
 				DEBUG("Merged appliers: {} -> {}", mergeAppliersHash, appliersHash);
@@ -103,17 +109,13 @@ namespace Runner {
 		std::size_t modifiersHash = Hashify(matches[0].str());
 
 		auto modifier = Modifier::Factory::ParseData<R>(matches[0].str());
-		if (!modifier.has_value()) {
-			WARN("Invalid modifier: {}", matches[0].str());
-			return 0;
-		}
-
-		if (!result.GetRules<R>().contains(modifiersHash)) {
+		if (modifier.has_value()) {
 			auto pair = std::make_pair(modifier.value(), std::ref(result.appliers[appliersHash]));
 			result.GetRules<R>().emplace(modifiersHash, pair);
+			result.order[R].emplace_back(modifiersHash);
 			DEBUG("Created modifier: {} -> {}", modifiersHash, matches[0].str());
 		} else {
-			WARN("Modifier duplicate discarded: {}", matches[0].str());
+			WARN("Invalid modifier discarded: {}", matches[0].str());
 		}
 
 		return modifiersHash;
@@ -232,9 +234,7 @@ namespace Runner {
 
 	template <typename T>
 	bool Appliers::Passes(const T* form) const {
-		
-
-		return this->stringFilters.Passes(form);
+		return this->stringFilters.Passes(form) && this->formFilters.Passes(form);
 	};
 
 	// forces compilation

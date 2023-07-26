@@ -109,6 +109,20 @@ Armor = 100|-MySpecialHelmet,ArmorMaterialIron+ArmorHelmet
 | &lt;empty>/+/- | weight | real number | Weight of the armor |
 | &lt;empty>/+/- | rating | real number | Rating of the armor |
 
+#### String Filters
+
+It supports the following string filters:
+  - Keywords it has (e.g. `ArmorMaterialIron`)
+  - Armor editorID (e.g. `ArmorIronShield`)
+  - Armor name (e.g. `Iron Shield`)
+
+#### Form Filters
+
+It supports the following form filters:
+  - Leveled list it is in (e.g. `LItemClothesAll`)
+  - Outfit it belongs to (e.g. `BeggarWithHatOutfit`)
+  - Form list it is in (e.g. `WICommentCollegeRobesList`)
+
 <a name="WEAP"></a>
 ### Weapon
 
@@ -124,6 +138,20 @@ Armor = 100|-MySpecialHelmet,ArmorMaterialIron+ArmorHelmet
 | &lt;empty>/+/- | reach      | real number | Reach of the weapon           |
 | &lt;empty>/+/- | stagger    | real number | Stagger of the weapon         |
 
+#### String Filters
+
+It supports the following string filters:
+  - Keywords it has (e.g. `WeapMaterialIron`)
+  - Weapon editorID (e.g. `IronWarhammer`)
+  - Weapon name (e.g. `Iron Warhammer`)
+
+#### Form Filters
+
+It supports the following form filters:
+  - Leveled list it is in (e.g. `LItemWeaponBattleAxe`)
+  - Form list it is in (e.g. `MineOreToolsList`)
+
+
 <a name="AMMO"></a>
 ### Ammo
 
@@ -135,6 +163,18 @@ Armor = 100|-MySpecialHelmet,ArmorMaterialIron+ArmorHelmet
 | &lt;empty>/+/- | weight  | real number | Weight of the ammo |
 | &lt;empty>/+/- | damage  | real number | Damage of the ammo |
 
+#### String Filters
+
+It supports the following string filters:
+  - Keywords it has (e.g. `WeapMaterialOrcish`)
+  - Ammo editorID (e.g. `OrcishArrow`)
+  - Ammo name (e.g. `Orcish Arrow`)
+
+#### Form Filters
+
+It supports the following form filters:
+  - Leveled list it is in (e.g. `LItemAmmo`)
+  - Form list it is in (e.g. `Bolts`)
 
 # Requirements
 

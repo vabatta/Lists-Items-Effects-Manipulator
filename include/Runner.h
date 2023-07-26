@@ -3,6 +3,7 @@
 #include "Defs.h"
 #include "Modifier.h"
 #include "StringFilters.h"
+#include "FormFilters.h"
 
 namespace Runner {
 	static inline constexpr auto suffix = "_LIEM"sv;
@@ -14,6 +15,7 @@ namespace Runner {
 
 	struct Appliers {
 		StringFilters::Data stringFilters;
+		FormFilters::Data formFilters;
 		// TODO: add other appliers here
 
 		template <typename T>
@@ -24,6 +26,8 @@ namespace Runner {
 		// hash(appliers/alias name) -> appliers
 		std::map<std::size_t, Appliers> appliers;
 
+		// type -> vector<hash(mod)>
+		std::map<LIEM::RuleType, std::vector<std::size_t>> order;
 		// hash(mod) -> pair<modifier, ref<appliers>>
 		std::unordered_map<std::size_t, std::pair<Modifier::Data<LIEM::RuleType::ARMOR>, std::reference_wrapper<Appliers>>> armors;
 		std::unordered_map<std::size_t, std::pair<Modifier::Data<LIEM::RuleType::AMMO>, std::reference_wrapper<Appliers>>> ammos;

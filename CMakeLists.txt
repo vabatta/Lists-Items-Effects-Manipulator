@@ -35,11 +35,14 @@ configure_file(
 	@ONLY
 )
 
+find_path(SRELL_INCLUDE_DIRS "srell.hpp")
+find_path(MERGEMAPPER_INCLUDE_DIRS "MergeMapperPluginAPI.h")
+
 set(headers
 			include/Runner.h
 			include/Modifier.h
 			include/StringFilters.h
-			include/Cache.h
+			include/FormFilters.h
 			include/Defs.h
 )
 
@@ -47,9 +50,10 @@ set(sources
 			src/Runner.cpp
 			src/Modifier.cpp
 			src/StringFilters.cpp
-			src/Cache.cpp
+			src/FormFilters.cpp
 			src/Defs.cpp
 
+			${MERGEMAPPER_INCLUDE_DIRS}/MergeMapperPluginAPI.cpp
 			${CMAKE_CURRENT_BINARY_DIR}/version.rc
 )
 
@@ -61,8 +65,6 @@ source_group(
 		${headers}
 		${sources}
 )
-
-find_path(SRELL_INCLUDE_DIRS "srell.hpp")
 
 # Configure DLL build
 add_subdirectory($ENV{DKUtilPath} DKUtil)
@@ -76,6 +78,7 @@ target_include_directories(
 	${PROJECT_NAME}
 	PRIVATE
 		${SRELL_INCLUDE_DIRS}
+		${MERGEMAPPER_INCLUDE_DIRS}
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/src>
 		$<INSTALL_INTERFACE:src>
