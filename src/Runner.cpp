@@ -104,9 +104,13 @@ namespace Runner {
 	};
 
 	template <LIEM::RuleType R>
-	std::size_t MapModifier(const std::vector<srell::ssub_match>& matches, const std::size_t& appliersHash,
+	std::size_t MapModifier(const std::string& raw, const std::vector<srell::ssub_match>& matches, const std::size_t& appliersHash,
 													Data& result) {
-		std::size_t modifiersHash = Hashify(matches[0].str());
+		std::size_t modifiersHash = Hashify(raw);
+		if (result.GetRules<R>().contains(modifiersHash)) {
+			WARN("Discard duplicated: {}", raw);
+			return modifiersHash;
+		}
 
 		auto modifier = Modifier::Factory::ParseData<R>(matches[0].str());
 		if (modifier.has_value()) {
@@ -162,11 +166,6 @@ namespace Runner {
 					oldFormatMap.emplace(key, std::make_pair(entry, sanitized));
 				}
 
-				// TODO lookup for the full string is worth?
-				// std::string fullToHash = sanitized;
-				// std::ranges::transform(fullToHash, fullToHash.begin(), [](char c) { return
-				// static_cast<char>(std::tolower(c)); }); std::size_t fullHash = std::hash<std::string>{}(fullToHash);
-
 				// check if it's a valid rule
 				std::optional<LIEM::RuleType> ruleType = std::nullopt;
 				auto it = LIEM::StringToRuleType.find(key.pItem);
@@ -200,11 +199,11 @@ namespace Runner {
 						continue;
 					}
 				} else if (ruleType.value() == LIEM::RuleType::ARMOR) {
-					MapModifier<LIEM::RuleType::ARMOR>(matches, appliersHash, result);
+					MapModifier<LIEM::RuleType::ARMOR>(sanitized, matches, appliersHash, result);
 				} else if (ruleType.value() == LIEM::RuleType::AMMO) {
-					MapModifier<LIEM::RuleType::AMMO>(matches, appliersHash, result);
+					MapModifier<LIEM::RuleType::AMMO>(sanitized, matches, appliersHash, result);
 				} else if (ruleType.value() == LIEM::RuleType::WEAPON) {
-					MapModifier<LIEM::RuleType::WEAPON>(matches, appliersHash, result);
+					MapModifier<LIEM::RuleType::WEAPON>(sanitized, matches, appliersHash, result);
 				}
 				// TODO add more rules here
 				else {
