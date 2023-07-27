@@ -79,10 +79,14 @@ namespace Runner {
 				appliers.formFilters = FormFilters::Factory::ParseFormFilters(matches[2].str());
 				TRACE("Created FF for: {}", matches[2].str());
 			}
+			if (static_cast<uint32_t>(LIEM::SectionType::TRAITS) < matches.size()) {
+				appliers.traits = Traits::Factory::ParseTraits(matches[3].str());
+				TRACE("Created TR for: {}", matches[3].str());
+			}
 			// TODO other appliers here
 
 			result.appliers.emplace(appliersHash, appliers);
-			DEBUG("Created appliers: {} -> {}", appliersHash, raw);
+			DEBUG("Created appliers: {} = {}", appliersHash, raw);
 
 			for (auto& alias : aliases) {
 				std::size_t mergeAppliersHash = Hashify(alias);
@@ -94,6 +98,7 @@ namespace Runner {
 
 				result.appliers[appliersHash].stringFilters += result.appliers[mergeAppliersHash].stringFilters;
 				result.appliers[appliersHash].formFilters += result.appliers[mergeAppliersHash].formFilters;
+				result.appliers[appliersHash].traits += result.appliers[mergeAppliersHash].traits;
 				// TODO other appliers here
 
 				DEBUG("Merged appliers: {} -> {}", mergeAppliersHash, appliersHash);
@@ -117,7 +122,7 @@ namespace Runner {
 			auto pair = std::make_pair(modifier.value(), std::ref(result.appliers[appliersHash]));
 			result.GetRules<R>().emplace(modifiersHash, pair);
 			result.order[R].emplace_back(modifiersHash);
-			DEBUG("Created modifier: {} -> {}", modifiersHash, matches[0].str());
+			DEBUG("Created modifier: {} = {}", modifiersHash, matches[0].str());
 		} else {
 			WARN("Invalid modifier discarded: {}", matches[0].str());
 		}
@@ -191,7 +196,7 @@ namespace Runner {
 
 					if (!result.appliers.contains(aliasNameHash)) {
 						result.appliers.emplace(aliasNameHash, result.appliers[appliersHash]);
-						DEBUG("Created alias: {} -> {}", aliasNameHash, appliersHash);
+						DEBUG("Created alias: {} = {}", aliasNameHash, appliersHash);
 					}
 					// if alias already exists, check if points to the same appliers
 					else {
@@ -233,7 +238,8 @@ namespace Runner {
 
 	template <typename T>
 	bool Appliers::Passes(const T* form) const {
-		return this->stringFilters.Passes(form) && this->formFilters.Passes(form);
+		// TODO other appliers
+		return this->stringFilters.Passes(form) && this->formFilters.Passes(form) && this->traits.Passes(form);
 	};
 
 	// forces compilation

@@ -123,6 +123,11 @@ It supports the following form filters:
   - Outfit it belongs to (e.g. `BeggarWithHatOutfit`)
   - Form list it is in (e.g. `WICommentCollegeRobesList`)
 
+#### Traits
+
+It supports the following traits:
+  - `E` for enchanted
+
 <a name="WEAP"></a>
 ### Weapon
 
@@ -151,6 +156,10 @@ It supports the following form filters:
   - Leveled list it is in (e.g. `LItemWeaponBattleAxe`)
   - Form list it is in (e.g. `MineOreToolsList`)
 
+#### Traits
+
+It supports the following traits:
+  - `E` for enchanted
 
 <a name="AMMO"></a>
 ### Ammo
@@ -175,6 +184,10 @@ It supports the following string filters:
 It supports the following form filters:
   - Leveled list it is in (e.g. `LItemAmmo`)
   - Form list it is in (e.g. `Bolts`)
+
+#### Traits
+
+None.
 
 # Requirements
 
