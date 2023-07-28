@@ -72,11 +72,15 @@ Because this is common and/or true for most rules, it can also be enclosed in an
 ### String Filters
 
 Used to filter the records to apply the rule to and multiple rules are separated by a comma (`,`).  
-Rules are normally applied as "OR" (e.g. `ArmorMaterialIron,ArmorMaterialSteel` means apply to all armors that have either `ArmorMaterialIron` or `ArmorMaterialSteel` keyword).  
-Use `+` to make it "AND" on multiple words (e.g. `ArmorMaterialIron+ArmorHelmet` means apply to all armors that have both `ArmorMaterialIron` and `ArmorHelmet` keywords).  
-Use `-` to make it "NOT" on a single word (e.g. `-ArmorMaterialSteel` means apply to all armors that do not have `ArmorMaterialSteel` keyword).  
-Use `*` to make it a "wildcard" on a single word (e.g. `*Iron` means apply to all armors that have the word `Iron` in their keywords, edids, ...).
-Use `@<name>` to expand an alias (see [Alias](#alias)).  
+- Rules are normally applied as "OR"
+  - e.g. `ArmorMaterialIron,ArmorMaterialSteel` means apply to all armors that have either `ArmorMaterialIron` or `ArmorMaterialSteel` keyword  
+- Use `+` to make it "AND" on multiple words
+  - e.g. `ArmorMaterialIron+ArmorHelmet` means apply to all armors that have both `ArmorMaterialIron` and `ArmorHelmet` keywords
+- Use `-` to make it "NOT" on a single word
+  - e.g. `-ArmorMaterialSteel` means apply to all armors that do _not_ have `ArmorMaterialSteel` keyword
+- Use `*` to make it a "wildcard" on a single word
+  - e.g. `*Iron` means apply to all armors that have the word `Iron` in their keywords, edids, ...
+- Use `@<name>` to expand an alias (see [Alias](#alias))
 
 Refer to each individual rule type for the supported string filters.  
 Generally you can filter on keywords, form editor ids and form names.
@@ -84,9 +88,12 @@ Generally you can filter on keywords, form editor ids and form names.
 ### Form Filters
 
 Used to filter the records to apply the rule to and multiple rules are separated by a comma (`,`).  
-Rules are normally applied as "OR" (e.g. `LItemClothesAll,BeggarWithHatOutfit` means apply to all armors that are either in `LItemClothesAll` list or `BeggarWithHatOutfit` outfit).  
-Use `+` to make it "AND" on multiple words (e.g. `LItemClothesAll+LItemClothesPoor` means apply to all armors that are in both `LItemClothesAll` and `LItemClothesPoor` lists).  
-Use `-` to make it "NOT" on a single word (e.g. `-LItemClothesPoor` means apply to all armors that are not in `LItemClothesPoor` list).  
+- Rules are normally applied as "OR"
+  - e.g. `LItemClothesAll,BeggarWithHatOutfit` means apply to all armors that are either in `LItemClothesAll` list or `BeggarWithHatOutfit` outfit
+- Use `+` to make it "AND" on multiple words
+  - e.g. `LItemClothesAll+LItemClothesPoor` means apply to all armors that are in both `LItemClothesAll` and `LItemClothesPoor` lists
+- Use `-` to make it "NOT" on a single word
+  - e.g. `-LItemClothesPoor` means apply to all armors that are _not_ in `LItemClothesPoor` list
 
 FormIDs are supported but discoraged to use (e.g. `0x800~MyMod.esp` or `0x2D202` without esp/esl for base game and DLCs).  
 
@@ -95,20 +102,24 @@ Refer to each individual rule type for the supported form filters.
 ### Traits
 
 Used to filter the records to apply the rule to and multiple rules are separated by a forward slash (`/`).  
-Rules are normally applied as "AND" (e.g. `E/X` means apply to all armors that are `Enchanted` and `X <as example>`).  
-Use `-` to make it "NOT" on a single trait (e.g. `-E` means apply to all armors that are not `Enchanted`).  
+- Rules are normally applied as "AND"
+  - e.g. `E/X` means apply to all armors that are `Enchanted` and `X <as example>`
+- Use `-` to make it "NOT" on a single trait
+  - e.g. `-E` means apply to all armors that are _not_ `Enchanted`
 
 Refer to each individual rule type for the supported traits.
 
 ### Chance
 
-A [natural number](https://www.wikiwand.com/en/Natural_number) between `0` and `100` that represents the chance of the rule to be applied. `100` represents "always" (same as `NONE`) and `0` "never".  
-This is [deterministic](https://www.wikiwand.com/en/Pseudorandom_number_generator) for each record, so the "random" is always the same across saves.
+> Note: This is [deterministic](https://www.wikiwand.com/en/Pseudorandom_number_generator) for each record, so the "randomness" is always the same across saves.
+
+A [natural number](https://www.wikiwand.com/en/Natural_number) between `0` and `100` that represents the chance of the rule to be applied.  
+`100` represents "always" (same as `NONE`) and `0` "never".  
 
 ## Rules
 
 Supported special rules:
-- `Alias` for aliasing the right part of rules (["Appliers"](#appliers)) [Alias](#alias)
+- `Alias` for aliasing the right part of rules (["Appliers"](#appliers)) [[Alias]](#alias)
 
 Supported types related to game form records:
 - `Armor` for armors and clothing (including shields and jewelry) [[ARMO]](#armor)
