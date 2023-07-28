@@ -7,7 +7,7 @@ namespace Traits {
 	// NOTE this way of storing traits is not very efficient, because of the little overlap between the form types but
 	// it's the easiest to implement
 	struct Data {
-		std::optional<bool> isEnchanted;
+		std::optional<bool> isEnchanted = std::nullopt;
 
 		template <typename T>
 		bool Passes(const T* form) const;
