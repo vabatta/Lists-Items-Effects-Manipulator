@@ -111,11 +111,10 @@ Supported special rules:
 - `Alias` for aliasing the right part of rules (["Appliers"](#appliers)) [Alias](#alias)
 
 Supported types related to game form records:
-- `Armor` for armors and clothing (including shields and jewelry) [[ARMO]](#ARMO)
-- `Weapon` for weapons [[WEAP]](#WEAP)
-- `Ammo` for ammonitions (bolts and arrows) [[AMMO]](#AMMO)
+- `Armor` for armors and clothing (including shields and jewelry) [[ARMO]](#armor)
+- `Weapon` for weapons [[WEAP]](#weapon)
+- `Ammo` for ammonitions (bolts and arrows) [[AMMO]](#ammo)
 
-<a name="alias"></a>
 ### Alias
 
 `Alias = name|...`
@@ -133,7 +132,6 @@ Armor = 100|@IronHelmets,-MySpecialHelmet
 Armor = 100|-MySpecialHelmet,ArmorMaterialIron+ArmorHelmet
 ```
 
-<a name="ARMO"></a>
 ### Armor
 
 `Armor = value,weight,rating|...`
@@ -163,7 +161,6 @@ It supports the following form filters:
 It supports the following traits:
   - `E` for enchanted
 
-<a name="WEAP"></a>
 ### Weapon
 
 `Weapon = value,weight,damage,critDamage,speed,reach,stagger|...`
@@ -196,7 +193,6 @@ It supports the following form filters:
 It supports the following traits:
   - `E` for enchanted
 
-<a name="AMMO"></a>
 ### Ammo
 
 `Ammo = value,weight,damage|...`
