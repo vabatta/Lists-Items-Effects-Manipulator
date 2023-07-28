@@ -44,6 +44,7 @@ set(headers
 			include/StringFilters.h
 			include/FormFilters.h
 			include/Traits.h
+			include/Chance.h
 			include/Defs.h
 )
 
@@ -53,6 +54,7 @@ set(sources
 			src/StringFilters.cpp
 			src/FormFilters.cpp
 			src/Traits.cpp
+			src/Chance.cpp
 			src/Defs.cpp
 
 			${MERGEMAPPER_INCLUDE_DIRS}/MergeMapperPluginAPI.cpp

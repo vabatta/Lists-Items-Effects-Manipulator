@@ -83,6 +83,10 @@ namespace Runner {
 				appliers.traits = Traits::Factory::ParseTraits(matches[3].str());
 				TRACE("Created TR for: {}", matches[3].str());
 			}
+			if (static_cast<uint32_t>(LIEM::SectionType::CHANCE) < matches.size()) {
+				appliers.chance = Chance::Factory::ParseChance(matches[4].str());
+				TRACE("Created CH for: {}", matches[4].str());
+			}
 			// TODO other appliers here
 
 			result.appliers.emplace(appliersHash, appliers);
@@ -99,6 +103,7 @@ namespace Runner {
 				result.appliers[appliersHash].stringFilters += result.appliers[mergeAppliersHash].stringFilters;
 				result.appliers[appliersHash].formFilters += result.appliers[mergeAppliersHash].formFilters;
 				result.appliers[appliersHash].traits += result.appliers[mergeAppliersHash].traits;
+				result.appliers[appliersHash].chance += result.appliers[mergeAppliersHash].chance;
 				// TODO other appliers here
 
 				DEBUG("Merged appliers: {} -> {}", mergeAppliersHash, appliersHash);
@@ -109,8 +114,8 @@ namespace Runner {
 	};
 
 	template <LIEM::RuleType R>
-	std::size_t MapModifier(const std::string& raw, const std::vector<srell::ssub_match>& matches, const std::size_t& appliersHash,
-													Data& result) {
+	std::size_t MapModifier(const std::string& raw, const std::vector<srell::ssub_match>& matches,
+													const std::size_t& appliersHash, Data& result) {
 		std::size_t modifiersHash = Hashify(raw);
 		if (result.GetRules<R>().contains(modifiersHash)) {
 			WARN("Discard duplicated: {}", raw);
@@ -239,7 +244,8 @@ namespace Runner {
 	template <typename T>
 	bool Appliers::Passes(const T* form) const {
 		// TODO other appliers
-		return this->stringFilters.Passes(form) && this->formFilters.Passes(form) && this->traits.Passes(form);
+		return this->chance.Passes(form) && this->stringFilters.Passes(form) && this->formFilters.Passes(form) &&
+					 this->traits.Passes(form);
 	};
 
 	// forces compilation

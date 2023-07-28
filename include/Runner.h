@@ -5,6 +5,7 @@
 #include "StringFilters.h"
 #include "FormFilters.h"
 #include "Traits.h"
+#include "Chance.h"
 
 namespace Runner {
 	static inline constexpr auto suffix = "_LIEM"sv;
@@ -18,6 +19,7 @@ namespace Runner {
 		StringFilters::Data stringFilters;
 		FormFilters::Data formFilters;
 		Traits::Data traits;
+		Chance::Data chance;
 		// TODO: add other appliers here
 
 		template <typename T>
