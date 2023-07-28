@@ -14,7 +14,7 @@ This is thought mostly as a companion to mods which adds and sets up keywords to
 
 ## Planning
 
-Still very much a WIP. Plan to cover all possible forms and records within them where make sense (containers or leveled lists for items, ingredients or consumables for effects.
+Still very much a WIP. Plan to cover all possible forms and records within them where make sense (containers or leveled lists for items, ingredients or consumables for effects).
 
 # General syntax
 
@@ -29,19 +29,13 @@ In general the syntax is the one described below, similar to the one used in SPI
 
 Think of a rule as a set of "type", "what to do", "where to do it" and "when to do it".  
 
-### Modifier - "what to do"
+## `NONE` to skip
+
+Use `NONE` key (or blank) to ignore the value that should be provided.
+
+<a name="modifier"></a>
+## Modifier - "what to do"
 The "modifier" part refers to the "what to do" part, which is _almost always_ specialised for the rule type (Armor-specific, Weapon-specific, ...).  
-
-<a name="appliers"></a>
-### Appliers - "where to do it" & "when to do it"
-The "appliers" part refers to "where" and "when" to do it parts. It encludes many different ways of filtering the final target records.  
-Because this is common and/or true for most rules, it can also be enclosed in an expansable/reusable rule `Alias` at the top of your file and use a special syntax in `StringFilters` to expand it. (see [Alias](#alias))
-
-## Definitions
-
-### Key: NONE
-
-A `NONE` key (or blank) ignores the value that should be provided, telling it to skip.
 
 ### Operation: &lt;empty>/+/-
 
@@ -70,7 +64,48 @@ Form: `<digits>[.<digits>]`
 A [real number](https://www.wikiwand.com/en/Real_number) written with digits and optionally a deciaml part.  
 > Note: Trailing `0` is required. `.5` is not valid but `0.5` is.
 
-## RuleType
+<a name="appliers"></a>
+## Appliers - "where to do it" & "when to do it"
+The "appliers" part refers to "where" and "when" to do it parts. It encludes many different ways of filtering the final target records.  
+Because this is common and/or true for most rules, it can also be enclosed in an expansable/reusable rule `Alias` at the top of your file and use a special syntax in `StringFilters` to expand it. (see [Alias](#alias))
+
+### String Filters
+
+Used to filter the records to apply the rule to and multiple rules are separated by a comma (`,`).  
+Rules are normally applied as "OR" (e.g. `ArmorMaterialIron,ArmorMaterialSteel` means apply to all armors that have either `ArmorMaterialIron` or `ArmorMaterialSteel` keyword).  
+Use `+` to make it "AND" on multiple words (e.g. `ArmorMaterialIron+ArmorHelmet` means apply to all armors that have both `ArmorMaterialIron` and `ArmorHelmet` keywords).  
+Use `-` to make it "NOT" on a single word (e.g. `-ArmorMaterialSteel` means apply to all armors that do not have `ArmorMaterialSteel` keyword).  
+Use `*` to make it a "wildcard" on a single word (e.g. `*Iron` means apply to all armors that have the word `Iron` in their keywords, edids, ...).
+Use `@<name>` to expand an alias (see [Alias](#alias)).  
+
+Refer to each individual rule type for the supported string filters.  
+Generally you can filter on keywords, form editor ids and form names.
+
+### Form Filters
+
+Used to filter the records to apply the rule to and multiple rules are separated by a comma (`,`).  
+Rules are normally applied as "OR" (e.g. `LItemClothesAll,BeggarWithHatOutfit` means apply to all armors that are either in `LItemClothesAll` list or `BeggarWithHatOutfit` outfit).  
+Use `+` to make it "AND" on multiple words (e.g. `LItemClothesAll+LItemClothesPoor` means apply to all armors that are in both `LItemClothesAll` and `LItemClothesPoor` lists).  
+Use `-` to make it "NOT" on a single word (e.g. `-LItemClothesPoor` means apply to all armors that are not in `LItemClothesPoor` list).  
+
+FormIDs are supported but discoraged to use (e.g. `0x800~MyMod.esp` or `0x2D202` without esp/esl for base game and DLCs).  
+
+Refer to each individual rule type for the supported form filters.  
+
+### Traits
+
+Used to filter the records to apply the rule to and multiple rules are separated by a forward slash (`/`).  
+Rules are normally applied as "AND" (e.g. `E/X` means apply to all armors that are `Enchanted` and `X <as example>`).  
+Use `-` to make it "NOT" on a single trait (e.g. `-E` means apply to all armors that are not `Enchanted`).  
+
+Refer to each individual rule type for the supported traits.
+
+### Chance
+
+A [natural number](https://www.wikiwand.com/en/Natural_number) between `0` and `100` that represents the chance of the rule to be applied. `100` represents "always" (same as `NONE`) and `0` "never".  
+This is [deterministic](https://www.wikiwand.com/en/Pseudorandom_number_generator) for each record, so the "random" is always the same across saves.
+
+## Rules
 
 Supported special rules:
 - `Alias` for aliasing the right part of rules (["Appliers"](#appliers)) [Alias](#alias)
